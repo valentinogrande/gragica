@@ -20,7 +20,7 @@ services:
 
   backend:
     build:
-      context: ./goschool
+      context: ./back
     container_name: ${BACKEND_CONTAINER_NAME}
     restart: unless-stopped
     ports:
@@ -60,7 +60,7 @@ services:
 
   frontend:
     build:
-      context: ./goschool-front
+      context: ./front
     container_name: ${FRONTEND_CONTAINER_NAME}
     restart: unless-stopped
     ports:
