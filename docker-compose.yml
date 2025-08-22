@@ -58,18 +58,18 @@ services:
     volumes:
       - shared_output:/shared
 
-  frontend:
-    build:
-      context: ./front
-    container_name: ${FRONTEND_CONTAINER_NAME}
-    restart: unless-stopped
-    ports:
-      - "${FRONTEND_PORT}:3000"
-    depends_on:
-      - backend
-    environment:
-      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
-
+  # frontend:
+  #   build:
+  #     context: ./front
+  #   container_name: ${FRONTEND_CONTAINER_NAME}
+  #   restart: unless-stopped
+  #   ports:
+  #     - "${FRONTEND_PORT}:3000"
+  #   depends_on:
+  #     - backend
+  #   environment:
+  #     NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+  #
 volumes:
   mysql_data:
   shared_output:
