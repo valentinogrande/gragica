@@ -1,5 +1,5 @@
 # Etapa 1: compilación
-FROM rust:1.88 as builder
+FROM rust:1.88 AS builder
 
 WORKDIR /app
 
