@@ -1,6 +1,0 @@
-/uploads
-/target
-/__pycache__
-ecc_public_key.pem
-ecc_private_key.pem
-.env
