@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS colegio_stella_maris_2025;
+--CREATE DATABASE IF NOT EXISTS colegio_stella_maris_2025;
 
-USE colegio_stella_maris_2025;
+--USE colegio_stella_maris_2025;
 
 CREATE TABLE IF NOT EXISTS users (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
