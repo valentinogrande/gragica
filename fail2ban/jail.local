@@ -1,0 +1,18 @@
+[DEFAULT]
+bantime  = 86400
+findtime = 60
+maxretry = 20
+
+[nginx-rejected-methods]
+enabled  = true
+filter   = nginx-rejected-methods
+port     = http,https
+logpath  = /var/log/nginx/rejected_methods.log
+action   = iptables-multiport[name=nginx-rejected-methods, port="http,https", protocol=tcp]
+
+[nginx-req-limit]
+enabled  = true
+filter   = nginx-req-limit
+port     = http,https
+logpath = /var/log/nginx/error.log
+action   = iptables-multiport[name=nginx-req-limit, port="http,https", protocol=tcp]

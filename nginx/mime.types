@@ -1,0 +1,15 @@
+types {
+    text/html       html htm shtml;
+    text/css        css;
+    text/javascript js;
+    image/jpeg      jpeg jpg;
+    image/png       png;
+    image/gif       gif;
+    image/svg+xml   svg;
+    application/json json;
+    application/javascript js;
+    application/pdf pdf;
+    application/xml  xml;
+    application/msword               doc;
+    application/vnd.openxmlformats-officedocument.wordprocessingml.document docx;
+}
