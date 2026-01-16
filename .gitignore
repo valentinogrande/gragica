@@ -3,3 +3,4 @@ goschool-front/
 nginx/certs/
 back/
 front/
+nginx/logs/
