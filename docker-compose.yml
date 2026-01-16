@@ -101,18 +101,22 @@ services:
     volumes:
       - shared_output:/shared
 
-  # frontend:
-  #   build:
-  #     context: ./front
-  #   container_name: ${FRONTEND_CONTAINER_NAME}
-  #   restart: unless-stopped
-  #   ports:
-  #     - "${FRONTEND_PORT}:3000"
-  #   depends_on:
-  #     - backend
-  #   environment:
-  #     NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
-  #
+  frontend:
+    build:
+      context: ./front
+    container_name: ${FRONTEND_CONTAINER_NAME}
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    depends_on:
+      - backend
+      - nginx
+    environment:
+      # For browser (client-side) - uses host machine's address
+      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+      # For Next.js server-side requests - uses Docker network
+      BACKEND_URL: https://nginx:443
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
 volumes:
   mysql_data:
   shared_output:
