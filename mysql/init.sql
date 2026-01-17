@@ -186,14 +186,14 @@ CREATE TABLE IF NOT EXISTS subject_messages (
 
 CREATE TABLE IF NOT EXISTS chats (
   id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  photo VARCHAR(255),
-  description TEXT,
-  chat_type ENUM('direct','group') NOT NULL DEFAULT 'direct',
-  created_by BIGINT UNSIGNED NOT NULL,
+  name TEXT NOT NULL,
+  photo TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
+  description TEXT,
+  chat_type ENUM('direct', 'group') DEFAULT 'direct',
+  created_by BIGINT UNSIGNED,
+  FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS chat_participants (
@@ -204,8 +204,7 @@ CREATE TABLE IF NOT EXISTS chat_participants (
   last_read_at TIMESTAMP NULL,
   is_admin BOOLEAN DEFAULT FALSE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (chat_id) REFERENCES chats(id) ON DELETE CASCADE,
-  UNIQUE KEY unique_participant (user_id, chat_id)
+  FOREIGN KEY (chat_id) REFERENCES chats(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS chat_messages (
@@ -245,4 +244,4 @@ CREATE TABLE IF NOT EXISTS typing_indicators (
   FOREIGN KEY (chat_id) REFERENCES chats(id) ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
   UNIQUE KEY unique_typing (chat_id, user_id)
-)
+);
