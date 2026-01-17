@@ -272,13 +272,32 @@ make_request "GET" "$API_URL/students/?course=$COURSE_ID" "200" "Get students fi
 make_request "GET" "$API_URL/students/?role=student" "200" "Get students filtered by role"
 
 # =============================================================================
-# 7. TIMETABLES ENDPOINT
+# 7. TIMETABLES ENDPOINT (CRUD)
 # =============================================================================
 log_section "7. TIMETABLES"
 
 make_request "GET" "$API_URL/timetables/" "200" "Get all timetables"
 make_request "GET" "$API_URL/timetables/?course_id=$COURSE_ID" "200" "Get timetables filtered by course"
 make_request "GET" "$API_URL/timetables/?day=Monday" "200" "Get timetables filtered by day"
+make_request "GET" "$API_URL/timetables/?subject_id=$SUBJECT_ID" "200" "Get timetables filtered by subject"
+
+# Create timetable (admin/preceptor only)
+# Note: Requires valid course_id and subject_id that belong to each other
+NEW_TIMETABLE=$(make_request "POST" "$API_URL/timetables/" "200|201|400|401" "Create timetable" \
+    "{\"course_id\": $COURSE_ID, \"subject_id\": $SUBJECT_ID, \"day\": \"Monday\", \"start_time\": \"08:00:00\", \"end_time\": \"09:00:00\"}")
+TIMETABLE_ID=$(echo "$NEW_TIMETABLE" | grep -o '"id":[0-9]*' | head -1 | grep -o '[0-9]*')
+if [ -z "$TIMETABLE_ID" ]; then
+    # Try to get an existing timetable ID
+    EXISTING=$(make_request "GET" "$API_URL/timetables/" "200" "Get existing timetables for ID")
+    TIMETABLE_ID=$(echo "$EXISTING" | grep -o '"id":[0-9]*' | head -1 | grep -o '[0-9]*')
+fi
+log_info "Using TIMETABLE_ID=$TIMETABLE_ID"
+
+# Update timetable
+if [ -n "$TIMETABLE_ID" ]; then
+    make_request "PUT" "$API_URL/timetables/$TIMETABLE_ID" "200|401" "Update timetable" \
+        '{"day": "Tuesday", "start_time": "09:00:00", "end_time": "10:00:00"}'
+fi
 
 # =============================================================================
 # 8. PERSONAL DATA ENDPOINTS
@@ -615,6 +634,11 @@ fi
 # Delete assessment
 if [ -n "$ASSESSMENT_ID" ]; then
     make_request "DELETE" "$API_URL/assessments/$ASSESSMENT_ID" "200|204" "Delete assessment"
+fi
+
+# Delete timetable
+if [ -n "$TIMETABLE_ID" ]; then
+    make_request "DELETE" "$API_URL/timetables/$TIMETABLE_ID" "200|204|401" "Delete timetable"
 fi
 
 # =============================================================================
